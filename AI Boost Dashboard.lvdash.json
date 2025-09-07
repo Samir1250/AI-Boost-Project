@@ -1,0 +1,428 @@
+{
+  "datasets": [
+    {
+      "name": "9e685b06",
+      "displayName": "final_customer_themes",
+      "queryLines": [
+        "SELECT * FROM workspace.default.final_customer_themes"
+      ]
+    },
+    {
+      "name": "0d51629c",
+      "displayName": "no-null",
+      "queryLines": [
+        "SELECT * FROM workspace.default.final_customer_themes\n",
+        "where subscription_tier is not null"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "c6994b0f",
+      "displayName": "Customer Analysis",
+      "layout": [
+        {
+          "widget": {
+            "name": "65c7b2f3",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "9e685b06",
+                  "fields": [
+                    {
+                      "name": "theme",
+                      "expression": "`theme`"
+                    },
+                    {
+                      "name": "monthly(created_at)",
+                      "expression": "DATE_TRUNC(\"MONTH\", `created_at`)"
+                    },
+                    {
+                      "name": "count(message)",
+                      "expression": "COUNT(`message`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "monthly(created_at)",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "axis": {
+                    "title": "Date"
+                  },
+                  "displayName": "Date"
+                },
+                "y": {
+                  "fieldName": "count(message)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Tickets"
+                },
+                "color": {
+                  "fieldName": "theme",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "legend": {
+                    "position": "bottom"
+                  },
+                  "displayName": "theme"
+                }
+              },
+              "frame": {
+                "title": "Tickets over Time by Theme",
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 0,
+            "width": 4,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "e91fcde1",
+            "queries": [
+              {
+                "name": "dashboards/01f08c3af6aa103c9580995a56616d70/datasets/01f08c3b025913f38a9c19ec175ddd22_created_at",
+                "query": {
+                  "datasetName": "9e685b06",
+                  "fields": [
+                    {
+                      "name": "created_at",
+                      "expression": "`created_at`"
+                    },
+                    {
+                      "name": "created_at_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-date-range-picker",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "created_at",
+                    "displayName": "created_at",
+                    "queryName": "dashboards/01f08c3af6aa103c9580995a56616d70/datasets/01f08c3b025913f38a9c19ec175ddd22_created_at"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "showDescription": false,
+                "description": "Dat",
+                "title": "Date Range Filter"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "79b8a345",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "0d51629c",
+                  "fields": [
+                    {
+                      "name": "theme",
+                      "expression": "`theme`"
+                    },
+                    {
+                      "name": "subscription_tier",
+                      "expression": "`subscription_tier`"
+                    },
+                    {
+                      "name": "count(message)",
+                      "expression": "COUNT(`message`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "subscription_tier",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "custom-order",
+                      "orderedValues": [
+                        null,
+                        "free",
+                        "plus",
+                        "pro"
+                      ]
+                    }
+                  },
+                  "displayName": "subscription_tier"
+                },
+                "y": {
+                  "fieldName": "count(message)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Count of message"
+                },
+                "color": {
+                  "fieldName": "theme",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "theme"
+                },
+                "label": {
+                  "show": false
+                }
+              },
+              "frame": {
+                "title": "Number of messages by subscription tier and theme",
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 6,
+            "width": 4,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "f9294b2b",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "9e685b06",
+                  "fields": [
+                    {
+                      "name": "count(customer_id)",
+                      "expression": "COUNT(`customer_id`)"
+                    },
+                    {
+                      "name": "theme",
+                      "expression": "`theme`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "count(customer_id)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "hideTitle": true
+                  },
+                  "displayName": "Count of customer_id"
+                },
+                "color": {
+                  "fieldName": "theme",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "theme"
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "frame": {
+                "title": "Customer Themes Distribution",
+                "showTitle": true
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 2,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "5fdd65fa",
+            "queries": [
+              {
+                "name": "dashboards/01f08c3af6aa103c9580995a56616d70/datasets/01f08c3b025913f38a9c19ec175ddd22_theme",
+                "query": {
+                  "datasetName": "9e685b06",
+                  "fields": [
+                    {
+                      "name": "theme",
+                      "expression": "`theme`"
+                    },
+                    {
+                      "name": "theme_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              },
+              {
+                "name": "dashboards/01f08c3af6aa103c9580995a56616d70/datasets/01f08c3dd6c819a3b8672151620ed653_theme",
+                "query": {
+                  "datasetName": "0d51629c",
+                  "fields": [
+                    {
+                      "name": "theme",
+                      "expression": "`theme`"
+                    },
+                    {
+                      "name": "theme_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "theme",
+                    "displayName": "theme",
+                    "queryName": "dashboards/01f08c3af6aa103c9580995a56616d70/datasets/01f08c3b025913f38a9c19ec175ddd22_theme"
+                  },
+                  {
+                    "fieldName": "theme",
+                    "displayName": "theme",
+                    "queryName": "dashboards/01f08c3af6aa103c9580995a56616d70/datasets/01f08c3dd6c819a3b8672151620ed653_theme"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Theme Filter"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "cc465f31",
+            "queries": [
+              {
+                "name": "dashboards/01f08c3af6aa103c9580995a56616d70/datasets/01f08c3b025913f38a9c19ec175ddd22_subscription_tier",
+                "query": {
+                  "datasetName": "9e685b06",
+                  "fields": [
+                    {
+                      "name": "subscription_tier",
+                      "expression": "`subscription_tier`"
+                    },
+                    {
+                      "name": "subscription_tier_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              },
+              {
+                "name": "dashboards/01f08c3af6aa103c9580995a56616d70/datasets/01f08c3dd6c819a3b8672151620ed653_subscription_tier",
+                "query": {
+                  "datasetName": "0d51629c",
+                  "fields": [
+                    {
+                      "name": "subscription_tier",
+                      "expression": "`subscription_tier`"
+                    },
+                    {
+                      "name": "subscription_tier_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "subscription_tier",
+                    "displayName": "subscription_tier",
+                    "queryName": "dashboards/01f08c3af6aa103c9580995a56616d70/datasets/01f08c3b025913f38a9c19ec175ddd22_subscription_tier"
+                  },
+                  {
+                    "fieldName": "subscription_tier",
+                    "displayName": "subscription_tier",
+                    "queryName": "dashboards/01f08c3af6aa103c9580995a56616d70/datasets/01f08c3dd6c819a3b8672151620ed653_subscription_tier"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Subscription Filter"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 2,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    }
+  }
+}
